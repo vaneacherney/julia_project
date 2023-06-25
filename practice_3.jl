@@ -1,5 +1,5 @@
-# № 1 ----------------------------------
-function isprime(n::IntType) where IntType <: Integer # является ли заданное число простым
+# 1
+function isprime(n::IntType) where IntType <: Integer
     for d in 2:IntType(ceil(sqrt(n)))
         if n % d == 0
             return false
@@ -8,31 +8,28 @@ function isprime(n::IntType) where IntType <: Integer # является ли з
     return true
 end
 
-# № 2 ----------------------------------
+# 2
 function eratosphenes_sieve(n::Integer)
     prime_indexes = ones(Bool, n)
     prime_indexes[begin] = false
     i = 2
-    prime_indexes[i^2:i:n] .= false # - четные вычеркнуты
+    prime_indexes[i^2:i:n] .= false 
     i=3
-    #ИНВАРИАНТ: i - простое нечетное
     while i <= n
         prime_indexes[i^2:2i:n] .= false
-        # т.к. i^2 - нечетное, то шаг тут можно взять равным 2i, т.к. нечетное+нечетное=четное, а все четные уже вычеркнуты
         i+=1
         while i <= n && prime_indexes[i] == false
             i+=1
         end
-        # i - очередное простое (первое не вычеркунутое)
     end
     return findall(prime_indexes)
 end
 
-# № 3 ----------------------------------
+# 3
 function factorize(n::IntType) where IntType <: Integer
     list = NamedTuple{(:div, :deg), Tuple{IntType, IntType}}[]
     for p in eratosphenes_sieve(Int(ceil(n/2)))
-        k = degree(n, p) # кратность делителя
+        k = degree(n, p) 
         if k > 0
             push!(list, (div=p, deg=k))
         end
@@ -40,7 +37,7 @@ function factorize(n::IntType) where IntType <: Integer
     return list
 end
 
-function degree(n, p) # кратность делителя `p` числа `n`
+function degree(n, p)
     k=0
     n, r = divrem(n,p)
     while n > 0 && r == 0
@@ -50,7 +47,7 @@ function degree(n, p) # кратность делителя `p` числа `n`
     return k
 end
 
-# № 4 ----------------------------------
+# 4
 function meanstd(V :: Vector)
     m, s = 0, 0
     for i in V
@@ -60,8 +57,7 @@ function meanstd(V :: Vector)
     return s / length(V) - (m/length(V))^2
 end
 
-# № 5 ----------------------------------
-#5 Взаимные преобразования различных способов представления деревьев
+# 5
 struct Node
     index :: Int
     children :: Vector{Union{Nothing,Node}}
@@ -141,7 +137,7 @@ function convert!(node :: Node, tree :: Dict{Int, Vector}) :: Union{Dict{Int,Vec
     return tree
 end
 
-#----------------------------------------------------------------------------------------------------------#
+
 arr = [[[[],[],6], [], 2], [[10,11,4], [[],[],5], 3],1]
 tree = Dict{Int,Vector}();
 tree = convert!(arr, tree)
@@ -160,9 +156,8 @@ println(_arr)
 tree = convert!(node,tree)
 display(tree)
 
-# № 6 Рекурсивные алгоритмы дерева
+# 6
 
-# Высота дерева
 function depth( arr :: Union{Vector,Int}, i :: Int = 1)
     length(arr)==0 && return i-1
     typeof(arr) <: Int && return i
