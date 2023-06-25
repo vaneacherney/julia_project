@@ -3,7 +3,6 @@ function fast_pow(a::T, n::Int) where T<:Any
     k=n
     p=a
     t=1
-    #ИНВАРИАНТ: p^k*t=a^n
     while k>0
         if iseven(Integer(k))
             k /=2
