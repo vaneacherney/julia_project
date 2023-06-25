@@ -186,13 +186,8 @@ end
 
 
 
-#-------------------------------------
-#F = Z{Int, 8}(7)
 Q = Z{Int, 5}(9)
 
-#print(inverse(Q),"\n")
-#print(diaphant_solve(3,7,1))
 T=Polynom{Vector}([1,2,4,5,6,8,7])
 F=Polynom{Vector}([1,2,4,5])
-#print(F>>T)
 print(divrem(T,F))
