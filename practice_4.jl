@@ -1,9 +1,8 @@
-# using Plots
 include("practice_2.jl")
 using LinearAlgebra
 
 
-# № 1 ----------------------------------
+# 1
 function macloren_e_x(x :: Float64, n :: Int, eps :: Float64 = 1e-7)
     S :: Float64 = 1.
     a :: Float64 = abs(x)
@@ -17,8 +16,8 @@ function macloren_e_x(x :: Float64, n :: Int, eps :: Float64 = 1e-7)
     return S
 end
 
-# № 2 ----------------------------------
-function exp_(x::Float64)#e^x
+# 2
+function exp_(x::Float64)
     S :: Float64 = 1
     negative :: Bool = x<0
     if abs(x)>1
@@ -37,7 +36,8 @@ function exp_(x::Float64)#e^x
     negative && return 1/(S*S1)
     return S*S1
 end
-# № 3 ----------------------------------
+
+# 3
 function bessel(x,α)
     α *= (-1) ^ (α < 0)
     s = 0.0; a = ((x/2)^α)/factorial(α); k = 0;
@@ -48,7 +48,8 @@ function bessel(x,α)
     end
     return s
 end
-# № 4 ----------------------------------
+
+# 4
 function reverse_gauss1(A::AbstractMatrix{T}, b::AbstractVector{T}) where T
     x = similar(b)
     N = size(A, 1)
@@ -73,38 +74,37 @@ function swap!(A,B)
     end
 end
 
-# № 5 ----------------------------------
+# 5
 function transform_to_steps!(A::AbstractMatrix; epsilon = 1e-7,degenerate_exeption = true)
     @inbounds for k in 1:size(A,1)
-        absval, dk = findmax(abs,@view(A[k:end,k]))#max element -> index
+        absval, dk = findmax(abs,@view(A[k:end,k]))
         (degenerate_exeption && absval <= epsilon) && throw("вырожденная матрица")
         dk > 1 && swap!(@view(A[k,k:end]),@view(A[k+dk-1,k:end]))
         for i in k+1:size(A,1)
             t = A[i,k]/A[k,k]
-            @. @views A[i,k:end] = A[i,k:end] - t * A[k,k:end]#без точек будет копия при всех операциях
-            #@. - расставляет точки во всех местах
+            @. @views A[i,k:end] = A[i,k:end] - t * A[k,k:end]
         end
     end
     return A
 end
 
-# № 6, 7 ----------------------------------
+# 6, 7
 function solve_slae1(A::AbstractMatrix{T},b::AbstractMatrix{T}) where T
-    Ab = [A b] # hcat(A,b)
-    transform_to_steps!(Ab)#lengthxlength
+    Ab = [A b]
+    transform_to_steps!(Ab)
     svob = Ab[:,end]
     nesvob = Ab[:,1:(end-1)]
     return reverse_gauss1(nesvob,svob)#
 end
 function solve_slae2(A::AbstractMatrix{T},b::AbstractMatrix{T}) where T
-    Ab = [A b] # hcat(A,b)
-    transform_to_steps!(Ab)#lengthxlength
+    Ab = [A b]
+    transform_to_steps!(Ab)
     svob = Ab[:,end]
     nesvob = Ab[:,1:(end-1)]
-    return reverse_gauss2(nesvob,svob)#
+    return reverse_gauss2(nesvob,svob)
 end
 
-# № 8 ----------------------------------
+# 8
 
 function rank(A::AbstractMatrix{T}) where T
     B = transform_to_steps!(A)
@@ -114,7 +114,7 @@ function rank(A::AbstractMatrix{T}) where T
     end
     return size(B,1) - nulls
 end
-# № 9 ----------------------------------
+# 9
 function det_(A::AbstractMatrix{T}) where T
     B = transform_to_steps!(A)
     mult = 1
