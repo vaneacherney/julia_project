@@ -7,7 +7,6 @@ end
 
 function gcd_big(a::T, b::T) where T<:Integer
     u, v = one(T), zero(T); u1, v1 = 0, 1
-    #ИНВАРИАНТ:
     while b > 0
         k,r = divrem(a, b)
         a, b = b, r #a - k * b
