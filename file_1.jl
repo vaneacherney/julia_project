@@ -9,7 +9,7 @@ function gcd_big(a::T, b::T) where T<:Integer
     u, v = one(T), zero(T); u1, v1 = 0, 1
     while b > 0
         k,r = divrem(a, b)
-        a, b = b, r #a - k * b
+        a, b = b, r 
         u, v, u1, v1 = u1, v1, u - k * u1, v - k * v1
     end
     
@@ -74,7 +74,7 @@ end
 
 function Base. *(a::Polynom{T}, b::Polynom{T}) where {T<:Vector} 
     res = Polynom{T}(zeros(Int,length(a.a)+length(b.a)-1))
-    for i in eachindex(a.a) #1:length(a.a)
+    for i in eachindex(a.a) 
         for j in 0:(length(b.a)-1)
 
             res.a[i+j]+=a.a[i]*b.a[j+1]
@@ -83,7 +83,6 @@ function Base. *(a::Polynom{T}, b::Polynom{T}) where {T<:Vector}
     return res
 end
 
-#####
 function Base.divrem(A::Polynom{T}, B::Polynom{T}) where T
     B = copy(B.a)
     A = copy(A.a)
@@ -145,7 +144,7 @@ function Base.:mod(T::Polynom{k},M::Polynom{L})where {k,L}
 end 
 
 function Base. >>(a::Polynom{T}, b::Z{M,N}) where {T<:Vector,M<:Integer, N}
-    for i in eachindex(a.a) #1:length(a.a)
+    for i in eachindex(a.a) 
         
         a.a[i]=mod(a.a[i],N)
     end
