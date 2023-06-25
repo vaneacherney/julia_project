@@ -1,6 +1,6 @@
 using BenchmarkTools
-# № 1 ----------------------------------
 
+# 1
 function sort_perm!(a)
     indexes = collect(firstindex(a):lastindex(a))
     n = length(a)
@@ -17,7 +17,7 @@ end
  
 sort_perm(a)=sort_perm!(copy(a))
 
-# № 2 ----------------------------------
+# 2
 function bubble_sort!(a)
     n = length(a)
     for k in 1:n-1
@@ -52,12 +52,8 @@ f = randn(1000)
 @time bubble_sort!(f)
 f = randn(1000)
 @time comb_sort!(f)
-#как мы видим, уже на 1000 элементах сортировка расчёсыванием перегоняет пузырьковую.
-#сложность пузырьковой O(n^2) во всех случаях, а у сортировки расчёсыванием в среднем же O(n^2/2^p)
 
-
-# № 3 ----------------------------------
-
+# 3
 function insert_sort!(vector)
     n = 1
     while n < length(vector) 
@@ -107,18 +103,7 @@ function shell_sort2(arr)
     return arr
 end
 
-#=
-f = rand(Int, 10000)
-@time shell_sort!(f)
-f = rand(Int, 10000)
-@time insert_sort!(f)
-=#
-#на значении в 10000 элементов сортировка шела становится быстрее сортировки вставками. 
-#сортировка шела немного лучше чем обычная сортировка вставками, работающая во всех случаях за O(n^2), 
-#так как это вероятностный алгоритм, в лучшем случае, который может выдавать даже O(n * (logn)^2)
-
-# № 4 ----------------------------------
-
+# 4
 @inline function Base.merge!(a1, a2, a3)::Nothing 
     i1, i2, i3 = 1, 1, 1
     @inbounds while i1 <= length(a1) && i2 <= length(a2) 
@@ -162,21 +147,8 @@ function merge_sort!(a)
     end
     return a
 end
-#=
-f = rand(Int, 100000)
-@time bubble_sort!(f)
-f = rand(Int, 100000)
-@time comb_sort!(f)
-f = rand(Int, 100000)
-@time shell_sort!(f)
-f = rand(Int, 100000)
-@time insert_sort!(f)
-f = rand(Int, 100000)
-@time merge_sort!(f)
-=#
-#видно, что на маленьких значениях сортировка слиянием показывает себя хуже, но на больших значениях она выигрывает, так как её сложность O(n*logn)
 
-# № 5 ----------------------------------
+# 5
 function part_sort!(A, b)
     N = length(A)
     K=0
@@ -207,20 +179,8 @@ function quick_sort!(A)
     return A
 end
 
-#=
-f = rand(Int, 10000000)
-@time comb_sort!(f)
-f = rand(Int, 10000000)
-@time shell_sort!(f)
-f = rand(Int, 10000000)
-@time merge_sort!(f)
-f = rand(Int, 10000000)
-@time quick_sort!(f)
-=#
-#в данной ситуации получилось, что сортировка хоара не настолько эффективна, как другие влоть до 1+e^6, но её эффективность раскрывается на больших значениях
-#так как её сложность в среднем равна O(N*log(N)) хоть и с достаточно большим коэфициентом 
 
-# № 6 ----------------------------------
+# 6
 function findMedian(a, n)
     if (n % 2 == 0)
         part_sort!(a, n÷2)
@@ -235,7 +195,7 @@ f = rand(Int, 1000)
 @time findMedian(f, length(f))
 
 
-# № 7 ----------------------------------
+# 7
 function counting_sort!(arr::Vector{T}) where T <: Integer
     max_val = maximum(arr)
     count_arr = zeros(T, max_val + 1)
